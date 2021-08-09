@@ -5,6 +5,8 @@ orbs:
 
 jobs:
   test:
+    docker:
+      - image: dotnet/aspnet
     description: Setup and run application tests
     executor:
       name: windows/default
@@ -29,6 +31,8 @@ jobs:
       - store_artifacts:
           path: test_coverage
   build:
+    docker:
+    - image: dotnet/aspnet
     description: Build application with Release configuration
     executor:
       name: windows/default
@@ -37,6 +41,12 @@ jobs:
       - run:
           name: "Build Application according to some given configuration"
           command: dotnet.exe build --configuration Release
+      - run:
+          name: Deploy Over SSH
+          command: | 
+            scp [path] ssh user@127.0.0.1:/home/faridun/app
+            ssh user@127.0.0.1 "sudo cp -rlf app/* /var/api/international-cards-svc/"
+            ssh user@127.0.0.1 "sudo systemctl restart international-cards.service"
 workflows:
   test_and_build:
     jobs:
