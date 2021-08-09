@@ -45,8 +45,8 @@ jobs:
           name: Deploy Over SSH
           command: | 
             scp [path] ssh user@127.0.0.1:/home/faridun/app
-            ssh user@127.0.0.1 "sudo cp -rlf app/* /var/api/international-cards-svc/"
-            ssh user@127.0.0.1 "sudo systemctl restart international-cards.service"
+            ssh user@127.0.0.1 "sudo cp -rlf app/* /var/api/app-service/"
+            ssh user@127.0.0.1 "sudo systemctl restart app-service.service"
 workflows:
   test_and_build:
     jobs:
